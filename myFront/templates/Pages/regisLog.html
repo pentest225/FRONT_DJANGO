@@ -129,11 +129,11 @@
             </nav>
         </div>
         </header>
-        <section class="fdb-block bg-dark" id="app" v-bind:style="{backgroundImage: 'url(' + image +')'                          }">
+        <section class="fdb-block bg-dark" id="app" v-bind:style="{backgroundImage: 'url('+image +')'}">
             <div class="container">
                 <div class="row">
                     <div class="col text-center">
-                        <h1 v-on:click='changeMessage' class="btn btn-primary">${username}</h1>
+                        <h1 v-on:click='changeMessage' class="btn btn-primary">${Message}</h1>
                     </div>
                 </div>
         
@@ -182,11 +182,11 @@
                                             </div>
                                             
                                         </div>
-                                        <div v-if='results' class="alert alert-success" role="alert">
-                                                A simple success alert—check it out!
+                                        <div v-if='success' class="alert alert-success" role="alert">
+                                               ${messageRes}
                                         </div>
                                         <div v-if='error' class="alert alert-danger" role="alert">
-                                        A simple danger alert—check it out!
+                                            ${messageRes}
                                         </div>
                                         <div class="row">
                                             <div class="col mt-4">
@@ -349,8 +349,9 @@
                     pass:'',
                     passconf:'',
                     isregister:false,
-                    results:'',
-                    error:'',
+                    success:false,
+                    error:false,
+                    messageRes:'',
         
 
                 },
@@ -368,10 +369,8 @@
                     },
                     sendRegister:function(){
                         this.isregister=true
-
                         axios.defaults.xsrfCookieName = 'csrftoken'
                         axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-
                         axios.post('http://127.0.0.1:8000/post', {
                             name: '' + this.name,
                             username: '' + this.username,
@@ -380,12 +379,18 @@
                             passconf: '' + this.passconf,
                             phone:'' +this.phone,
                             }).then(response => {
-                                console.log(response.data.succes) 
-                                this.results=response.data
-                                this.error=response.data
-                                if(response.data['succes']){
-                                    this.isregister=false
+                                console.log(response) 
+                                if(response.data.success){
+                                    this.success=true
+                                    this.error=false
+                                    this.messageRes=response.data.message
                                 }
+                                else{
+                                    this.error=true
+                                    this.succes=false
+                                    this.messageRes=response.data.message
+                                }
+                                this.isregister=false
                             })
                             .catch((err) => {
                                 console.log(err);
