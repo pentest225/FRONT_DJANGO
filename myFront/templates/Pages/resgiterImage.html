@@ -175,6 +175,10 @@
                             <div v-if='!isLogin' class="container">
                                     <div class="row justify-content-center">
                                     <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
+                                            <div class="col-sm-3 m-sm-auto">
+                                                    <img alt="image" class="img-fluid rounded-circle" v-bind:style="{backgroundImage: 'url('+file:///H:/Django/templates/world/img/blog-img/b1.jpg +')'}" >
+                                                    <p>Founder</p>
+                                                </div>
                                         <div class="fdb-box fdb-touch">
                                         <div class="row">
                                             <div class="col">
@@ -221,9 +225,10 @@
                                                 <input type="password" class="form-control mb-1" placeholder="Password conf">
                                                 </div>
                                             </div>
-                                            <div class="row mt-4">
+                                            <div class="row mt-4"> 
                                                 <div class="col">
-                                                <input type="file" id="file" class="form-control mb-1" ref="file" v-on:change="handleFileUpload"/>
+                                                        <!--  -->
+                                                <input type="file" id="file" v-model="formImage" class="form-control mb-1" ref="file" v-on:change="handleFileUpload" />
                                                 <p class="text-right"><a href="https://www.froala.com">Already have an account?</a></p>
 
                                                 </div>
@@ -362,7 +367,7 @@
                     error:false,
                     messageRes:'',
                     file:'',
-
+                    formImage:'',
                 },
                 delimiters:["${","}"],
                 methods:{
@@ -410,6 +415,9 @@
                     },
                     handleFileUpload:function(){
                         this.file = this.$refs.file.files[0];
+                        console.log(this.$refs.file.files[0].webkitRelativePath)
+                        console.log(this.file)
+                        console.log(this.formImage)
                     },
                     submitFile:function(){
                         let formData=new FormData()
